@@ -13,12 +13,14 @@ app.get('/', (req, res) => {
   res.sendFile('index.html');
 });
 
+const isTag = (str) => /<[^>]*>/g.test(str);
+
 app.post('/shortened', (req, res) => {
   const longUrl = req.body.longurl;
   const encodedUrl = he.encode(longUrl);
   getTinyURL(longUrl).then(result => {
   const trimmed = result.split('https://')[1];
-  res.send(`
+  res.send(
     <h3>Result: shortened URL</h3>
     <p>Long url is: ${longUrl}</p>
     <p>Shortened url is: <a href="${result}" target="_blank">${trimmed}</p>
